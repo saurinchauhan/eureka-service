@@ -5,12 +5,16 @@ spring:
 server:
   port: 8300
 
+
 eureka:
   client:
+    healthcheck:
+       enabled: true
     registerWithEureka: false
     fetchRegistry: false
     service-url:
       defaultZone: http://localhost:8300/eureka
+   
 
 zuul:
   #Service will be mapped under the /api URI
@@ -25,4 +29,6 @@ zuul:
     auth-service:
       path: /auth-service/**
       url: http://localhost:8303
- 
+      # keeping 'sensitiveHeaders' empty is nacessary for auth-service,
+      # as it does not pass "Cookie", "Set-Cookie", "Authorization" headers downstream
+      sensitiveHeaders:
